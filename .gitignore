@@ -1,0 +1,10 @@
+# Environment variables
+.env
+
+# Cursor settings (if you want to keep local)
+.cursor/
+
+# OS files
+.DS_Store
+
+

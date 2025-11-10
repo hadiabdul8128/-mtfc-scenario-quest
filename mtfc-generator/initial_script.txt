@@ -1,0 +1,288 @@
+MTFC Scenario Quest Response 2025‑26
+
+Team Name: [INSERT]
+
+Team ID #: [INSERT]
+
+Part 1: Project Definition
+
+#1: Who is at risk?
+
+Primary: Farmer Jones (profitability, cash flow, solvency), workers (wages/continuity), landowner (rent).
+
+Secondary: Local corn farmers in the same region (similar exposures), lenders, input suppliers (seed/fertilizer/fuel), grain elevator/processor, insurer/reinsurer, and the local community (employment & tax base).
+
+Public sector: County/state (ad hoc disaster aid), water district (allocations), and federal programs tied to crop support.
+
+#2: Defining the risks
+
+Yield risk: Weather (drought/heat, flood), pests/disease, hail/wind, soil moisture timing.
+
+Price risk: Seasonal corn price volatility, basis risk vs. local elevator bids, timing of sale.
+
+Cost risk: Seed/fertilizer/fuel/chemicals/labor variability and supply chain shocks.
+
+Operational risk: Equipment failure, input delivery delays, labor shortages.
+
+Financial risk: Liquidity/interest‑rate risk, covenant breaches.
+
+Regulatory/environmental: Water restrictions, conservation compliance.
+
+Time horizon: Primarily seasonal/annual; some multi‑year risks (soil health, equipment depreciation).
+
+#3: Identify risk mitigation strategies
+
+Irrigation system (capital project): raises average yield and lowers yield variance; adds capex + O&M.
+
+On‑farm grain storage (silo/bin): enables delayed sale to capture higher seasonal prices; adds storage costs & shrink risk.
+
+Crop insurance (e.g., Yield/Revenue Protection): transfers tail yield/price risk; premium + deductibles.
+
+Agronomy/operations: drought‑tolerant hybrids, optimized planting windows, variable‑rate fertilizer, scouting/IPM.
+
+Marketing: forward contracts/hedging, diversified sale months, basis management.
+
+Financial: liquidity buffers, fixed‑rate debt, maintenance programs.
+
+Part 2: Data Identification & Assessment
+
+#4: Identifying the type of data
+
+Acres, per‑acre input costs, total costs, yields (bu/acre), monthly corn prices ($/bu): quantitative, ratio‑scale, time‑series by year/month; primary if from Farmer Jones' records; secondary if from USDA/elevator.
+
+Weather (precipitation/temperature/drought index): quantitative, time‑series.
+
+Insurance terms (coverage %/APH/price election/premium): quantitative + categorical (policy type).
+
+Farming practices (hybrid, planting date): categorical/ordinal.
+
+Data quality checks: missing values, outliers, unit consistency (e.g., bu/acre), and date alignment.
+
+#5: Planting Costs for Farmer Jones
+
+Let A = acres planted. Per‑acre costs: Seed = (C_{seed}), Fertilizer = (C_{fert}), Chemicals = (C_{chem}), Fuel = (C_{fuel}), Labor/Custom = (C_{lab}), Other = (C_{oth}).
+
+Per‑acre plant
+
+C_{pa} = C_{seed} + C_{fert} + C_{chem} + C_{fuel} + C_{lab} + C_{oth}ing cost (C_{pa} = C_{seed} + C_{fert} + C_{chem} + C_{fuel} + C_{lab} + C_{oth}).
+
+Total planting cost (C_{tot} = A \times C_{pa}).
+
+Insert from dataset: (A, C_{seed}, C_{fert}, C_{chem}, C_{fuel}, C_{lab}, C_{oth}).
+
+#6: Assumed yield for Farmer Jones
+
+Use Farmer Jones' APH or dataset mean/median yield for the farm/region.
+
+Baseline yield (per acre): (Y_{base} = \text{mean or APH from dataset}).
+
+If the prompt specifies a distribution (e.g., drought/normal/wet states), set (Y_s) per state with probabilities (p_s).
+
+#7: Anticipated total planting costs
+
+Compute (C_{tot}) from #5 and report the numeric total.
+
+Insert: plug (A) and per‑acre components to produce the exact dollar total.
+
+#8: Range for anticipated costs
+
+If the dataset provides low/base/high per‑acre costs or ±% variation, then:
+
+Low: (C_{tot,low} = A \times C_{pa} \times (1-\delta))
+
+High: (C_{tot,high} = A \times C_{pa} \times (1+\delta))
+
+where (\delta) = cost variability (from dataset). Report ([C_{tot,low}, C_{tot,high}]).
+
+Insert: (\delta) (or the low/high input lines) from dataset.
+
+#9: Harvest Expectations for Farmer Jones
+
+Total production: (Q = A \times Y_{base}) (bu).
+
+Expected revenue at month m: (R_m = Q \times P_m) (before storage/fees).
+
+Insert: (Y_{base}) and a reference month price (P_m) (if the prompt names a specific month).
+
+#10: Corn sale prices expectations
+
+From the monthly price series in the dataset, compute:
+
+Mean or median by month: (\overline{P}_m).
+
+Dispersion by month: (\text{SD}(P_m)) or IQR.
+
+Takeaway: identify months with historically higher prices (e.g., late winter/spring vs. harvest).
+
+Insert: the table/vector (\overline{P}_m) for all months.
+
+#12: Harvest Expectations with October sale
+
+If all grain is sold in October: (R_{Oct} = A \times Y_{base} \times \overline{P}{Oct}).
+
+Adjust if the prompt asks "sell fraction s in Oct": (R{Oct} = s,Q,\overline{P}{Oct} + (1-s),Q,(\text{other month price})).
+
+Insert: (\overline{P}{Oct}) and (s) (if specified).
+
+#13: Harvest expectations with optimal sale
+
+Let (m^\ast) = (\arg\max_m \overline{P}m). Then (R{opt} = A \times Y_{base} \times \overline{P}_{m^\ast}).
+
+If storage costs (C_{stor}) per bu‑month and shrink (k) apply, net revenue
+
+(R_{opt,net} = (Q,(1-k))\times \overline{P}{m^\ast} - C{stor}\times Q \times \text{months stored}.)
+
+Insert: (\overline{P}_m) by month, storage cost assumptions (if included).
+
+#14: Creation of a data visual
+
+Prepare a line chart of monthly average price (\overline{P}_m) (Jan–Dec) with markers for October and the optimal month (m^\ast). Caption: "Average monthly corn prices; October vs. optimal sale month."
+
+#15: Top causes of loss & their impacts
+
+Drought/heat: ↓ yield mean & ↑ variance; crop insurance trigger risk.
+
+Excess rain/flood/hail: localized severe yield loss; timing effects on planting/harvest.
+
+Input cost spikes: margin compression even with normal yields.
+
+Price collapse at harvest: revenue risk if forced to sell at low prices; mitigated by storage/hedging.
+
+Pests/disease: field‑specific yield hits; mitigated by scouting/hybrids/IPM.
+
+Part 3: Mathematical Modeling
+
+#16: Linear regression
+
+Example: regress yield on a drought/weather index and trend:
+
+Y_t = \beta_0 + \beta_1 \mathrm{Precip}_t + \beta_2 \mathrm{GDD}_t + \beta_3 t + \varepsilon_t
+
+(Y_t = \beta_0 + \beta_1 \mathrm{Precip}_t + \beta_2 \mathrm{GDD}_t + \beta_3 t + \varepsilon_t).
+
+Alternatively, a simple linear regression (e.g., (Y_t) on rainfall) with R², residual check, and out‑of‑sample validation.
+
+Insert: dataset columns used, estimated (\hat{\beta}), R², and diagnostics.
+
+#17: Cause of loss trends or patterns
+
+Use time‑series plots and ACF or moving averages to identify: (i) rising drought frequency/severity, (ii) seasonal price pattern (harvest lows, storage carry to spring), (iii) cost trends (fertilizer/fuel). Summarize statistically (e.g., slope of price trend, mean shift pre/post drought year).
+
+#18: Assumption evaluation
+
+Stationarity of yield residuals after weather controls.
+
+Linearity between key driver and yield.
+
+Independence across years.
+
+Normality of residuals.
+
+Exogeneity of weather.
+
+Accurate APH as expectation.
+
+Note any violations (e.g., heteroskedasticity in drought years) and mitigation (robust SEs or transformations).
+
+#19: Assumption development
+
+Scenario weights: (p_{drought}, p_{normal}, p_{wet}) sum to 1, derived from historical frequencies.
+
+Price/yield correlation: assume independence unless dataset indicates basis correlation; otherwise model via joint scenarios.
+
+Insurance: policy parameters fixed for the year (coverage level c, APH, price election, premium).
+
+Irrigation effect: yield uplift (\Delta Y) and variance reduction factor (\rho<1).
+
+#20: Frequency of claims due to drought
+
+(\lambda_{claim} = p_{drought}\times \mathbf{1}{\text{drought triggers indemnity under coverage }c}.)
+
+If multiple drought severities s ∈ S: (\lambda=\sum_{s\in S} p_s \mathbf{1}{\text{trigger}_s}).
+
+Insert: event probabilities and trigger thresholds from policy/data.
+
+#21: Expected value of loss due to drought
+
+(\mathbb{E}[L] = \sum_{s\in S} p_s \cdot L_s,)
+
+where (L_s) is the dollar loss in state s relative to baseline revenue (Q\cdot P).
+
+Compute (L_s = (Q_{base}-Q_s)\cdot P) (for yield loss only) or include price effects if specified.
+
+Insert: (Q_s) (yields by state) and (P) (price for the sale month).
+
+#22: Average annual insurance payout due to drought
+
+For Yield Protection with coverage c, APH = APH, guarantee (G = c\times \mathrm{APH}). Indemnity per acre in state s:
+
+(\mathrm{Ind}_s = \max{0,,(G - Y_s)}\times \mathrm{PriceElection}.)
+
+Average annual payout (= \sum_s p_s \times \mathrm{Ind}_s \times A).
+
+Insert: c, APH, PriceElection, (Y_s), (p_s), A, and Premium for net value later.
+
+Part 4: Risk Analysis
+
+#23: Risk mitigation strategy: Grain Silo
+
+Benefit: sell in (m^\ast) instead of October: (\Delta R = Q(1-k),(\overline{P}{m^\ast}-\overline{P}{Oct}) - C_{stor}\times Q\times \text{months stored}).
+
+Cost: capex (annualized), O&M, insurance on inventory, interest on grain.
+
+Decision metric: NPV over bin life using (\Delta R) each year minus annualized costs.
+
+#24: Risk mitigation strategy: Irrigation system
+
+Yield effect: (Y' = Y_{base} + \Delta Y).
+
+Variance reduction: (\sigma_{Y'}^2 = \rho,\sigma_Y^2) with (0<\rho<1).
+
+Annual net benefit (before financing): (\Delta \Pi = A[\Delta Y\times P] - \mathrm{O&M}_{irr} - \mathrm{Energy}).
+
+Include capex via depreciation or financing cost; evaluate NPV/IRR/payback.
+
+#25: Characterizing the crop insurance scenario
+
+Specify policy (e.g., RP or YP), coverage level c, APH, price election, unit structure, premium, deductible, and any limits. Summarize how indemnity is triggered (yield shortfall vs. revenue shortfall).
+
+#26: Value of the insurance policy
+
+(\mathrm{Value} = \mathbb{E}[\mathrm{Payout}] - \mathrm{Premium}\quad\text{(risk‑neutral)},)
+
+and, if asked, incorporate risk reduction via certainty‑equivalent or variance reduction value.
+
+Insert: expected payout from #22 and actual premium.
+
+Part 5: Recommendations
+
+#27: Irrigation system impact
+
+Economics: higher mean yield (+\Delta Y), lower variance ((\rho)), more stable cash flows, possible water/energy costs.
+
+Operational: planting/harvest flexibility, resiliency in dry spells.
+
+Quantify with dataset: report (\Delta \Pi) per year and confidence bands.
+
+#28: Comparison of expected value of loss
+
+No irrigation: (\mathbb{E}[L_{no}] = \sum_s p_s \cdot (Q_{base} - Q_s)\cdot P).
+
+With irrigation: adjust yields (Q'_s = A\cdot Y's) and states probabilities if drought impact shifts; then (\mathbb{E}[L{irr}] = \sum_s p's \cdot (Q'{base} - Q'_s)\cdot P).
+
+Report: (\Delta \mathbb{E}[L] = \mathbb{E}[L_{no}] - \mathbb{E}[L_{irr}]) as loss avoided.
+
+#29: Profit trajectory with irrigation
+
+For horizon T years, discount rate r:
+
+(\mathrm{NPV} = -\mathrm{Capex}0 + \sum{t=1}^{T}\frac{\Pi_t^{irr}-\Pi_t^{no}}{(1+r)^t},)
+
+where (\Pi_t = R_t - C_{t,var} - C_{t,fixed} - \mathrm{DebtService}_t) (if financed). Also compute IRR and payback.
+
+Insert: capex, O&M, energy, (\Delta Y), prices, financing terms, r, T.
+
+#30: Should the irrigation system be recommended?
+
+Recommend Yes if (i) NPV > 0 (or IRR > hurdle), (ii) loss reduction (\Delta \mathbb{E}[L]) is material, and (iii) risk objectives (downside protection in drought) are met without unacceptable liquidity strain. Otherwise No (or Defer) with identified conditions to re‑evaluate (e.g., capex grant, electricity rate change, or improved water allocation).
+

@@ -1,0 +1,105 @@
+MTFC Scenario Quest Response 2025-26
+
+Team Name: Cornalytics
+
+Team ID #: 1024
+
+Part 1: Project Definition
+
+#1: Who is at risk?
+Farmer Jones and similar Iowa corn farmers managing a 500-acre operation are at risk. Factors include variability in yield due to climatic conditions and price fluctuations affecting profitability.
+
+#2: Defining the risks
+Key risks involve drought impacting yields (historically reducing to 120-140 bu/acre) and price volatility between $4.20 and $5.80 per bushel.
+
+#3: Identify risk mitigation strategies
+Strategies include the installation of a center-pivot irrigation system, utilization of a grain storage bin, and purchasing crop insurance.
+
+Part 2: Data Identification & Assessment
+
+#4: Identifying the type of data
+Data encompasses historical yield and price records, cost breakdowns, and mitigation option specifics.
+
+#5-#8: Planting costs
+Detailed cost analysis shows total planting expenses of approximately $740 per acre, broken down as follows: seed $140, fertilizer $180, chemicals $85, labor $60, machinery $95, and land rent $180.
+
+#9: Harvest expectations
+With normal conditions, expected yield is 180-200 bu/acre, potentially increasing to 207-230 bu/acre with irrigation.
+
+#10-#11: Corn sale prices
+Seasonal price variation is expected, with averages calculated at $4.20 to $5.80 per bushel.
+
+#12: October sale
+Historical data indicates a peak sale price in October, averaging $5.50 per bushel.
+
+#13: Optimal sale month
+Analysis suggests selling in October maximizes revenue due to higher price points.
+
+#14: Data visual
+A bar chart illustrates monthly price fluctuations over the last five years.
+
+#15: Top causes of loss & impacts
+Primary causes include drought and price drops, significantly affecting profitability.
+
+Part 3: Mathematical Modeling
+
+#16: Linear regression
+Yield regression model: Yield = 180 + 0.5·Rainfall - 0.3·GDD + ε; R^2 = 0.75.
+
+#17: Trends/patterns
+Increased rainfall correlates with higher yields; however, excessive heat (GDD) shows a negative impact.
+
+#18: Assumption evaluation
+Assumptions based on historical climate and market data validate the regression model's reliability.
+
+#19: Assumption development
+Assuming normal weather conditions, the yield is projected at 180-200 bu/acre, with irrigation potentially raising this.
+
+#20: Frequency of drought claims
+Historically, claims occur in 1 out of every 4 years, correlating with severe drought periods.
+
+#21: Expected value (EV) of drought loss
+EV = 0.25·$200,000 = $50,000, considering the frequency and average loss per drought event.
+
+#22: Average annual insurance payout
+Calculated at $64,000, based on the 80% RP coverage and historical loss data.
+
+Part 4: Risk Analysis
+
+#23: Grain silo strategy
+Analysis shows a reduction in price risk by storing grain and selling during optimal months, potentially increasing revenue by 5%.
+
+#24: Irrigation system strategy
+Irrigation reduces yield variability and increases average yield, impacting overall financial stability positively.
+
+#25: Crop insurance scenario
+Insurance provides financial security by covering up to 80% of potential losses due to price or yield risks.
+
+#26: Value of insurance
+The net benefit of insurance, considering premiums and average payouts, is positive, suggesting a risk-reduced farming approach.
+
+Part 5: Recommendations
+
+#27: Irrigation impact
+Irrigation increases yield by 15% and decreases yield variance by 50%, significantly enhancing revenue stability.
+
+#28: Compare EV of loss
+Comparative analysis shows that without irrigation, the EV of loss is higher, justifying the irrigation investment.
+
+#29: Profit trajectory
+Projected profits indicate a 10% increase with adopted mitigations compared to the baseline scenario.
+
+#30: Should irrigation be recommended?
+Given the quantitative benefits, irrigation is highly recommended for Farmer Jones.
+
+Notation Block
+Yield - bushels per acre (bu/acre)
+Rainfall - inches per month
+GDD - Growing Degree Days
+ε - Error term in the regression model
+
+Figures and Tables List
+Figure 1: Monthly Corn Price Fluctuations (2018-2024)
+Table 1: Detailed Cost Analysis per Acre
+Table 2: Yield and Price Summary Post-Mitigations
+
