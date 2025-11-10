@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Open Story Commons</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#mainContent">Skip to main content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand-block">
+          <span class="brand-mark" aria-hidden="true">OS</span>
+          <div>
+            <p class="brand-title">Open Story Commons</p>
+            <p class="brand-subtitle">A community journal powered by its readers</p>
+          </div>
+        </div>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="#recentStories">Stories</a>
+          <a href="#submitStory">Contribute</a>
+          <a href="#about">About</a>
+        </nav>
+      </header>
+
+      <main id="mainContent">
+        <section class="hero" id="about">
+          <div class="hero-copy">
+            <h1>Stories are better when everyone can add a chapter.</h1>
+            <p>
+              Open Story Commons is a living publication. Share field notes, essays, interviews, or quick updates with
+              consent-first flows, blurred locations, and transcripts for every voice. Entries appear instantly—no
+              editors, just community care.
+            </p>
+            <div class="hero-actions">
+              <a class="action primary" href="#submitStory">Share your story</a>
+              <a class="action secondary" href="#recentStories">Browse recent entries</a>
+            </div>
+          </div>
+          <div class="hero-card" role="presentation">
+            <dl>
+              <div>
+                <dt>Active contributors</dt>
+                <dd id="metricContributors">—</dd>
+              </div>
+              <div>
+                <dt>Stories published</dt>
+                <dd id="metricStories">—</dd>
+              </div>
+              <div>
+                <dt>Last submission</dt>
+                <dd id="metricLastSubmission">—</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="stories" id="recentStories" aria-live="polite">
+          <div class="section-heading">
+            <h2>Community stories without gatekeepers</h2>
+            <p>Switch between Latest, Rising, and Editorless Picks. Thrumming real-time updates keep you in step.</p>
+          </div>
+          <div class="feed-tabs" role="tablist">
+            <button class="feed-tab is-active" role="tab" aria-selected="true" data-feed="latest" id="tabLatest">
+              Latest
+            </button>
+            <button class="feed-tab" role="tab" aria-selected="false" data-feed="rising" id="tabRising">Rising</button>
+            <button class="feed-tab" role="tab" aria-selected="false" data-feed="picks" id="tabPicks">
+              Editorless Picks
+            </button>
+          </div>
+          <div class="live-indicator" id="liveIndicator" aria-live="polite" hidden>
+            <span></span>
+            <p class="sr-only" id="liveIndicatorText">Live updates available</p>
+          </div>
+          <div class="new-stories-banner" id="newStoriesBanner" hidden>
+            <p><span id="newStoriesCount">0</span> new stories — load</p>
+            <button type="button" class="action secondary" id="loadNewStoriesBtn">Load</button>
+          </div>
+          <div id="storyList" class="story-list" role="feed"></div>
+          <template id="storyTemplate">
+            <article class="story-card" role="article">
+              <div class="story-media" hidden>
+                <img alt="" loading="lazy" />
+              </div>
+              <header>
+                <p class="story-tag"></p>
+                <span class="story-language-chip" hidden></span>
+                <h3 class="story-title"></h3>
+              </header>
+              <p class="story-content"></p>
+              <footer>
+                <span class="story-author"></span>
+                <span class="story-location"></span>
+                <time class="story-date" datetime=""></time>
+              </footer>
+              <div class="story-actions">
+                <button class="story-action" data-action="thanks">Thank</button>
+                <button class="story-action" data-action="save">Save</button>
+                <button class="story-action" data-action="share">Share</button>
+              </div>
+            </article>
+          </template>
+          <p class="empty-state" id="storyEmpty" hidden>No stories yet. Be the first to contribute.</p>
+        </section>
+
+        <section class="submission" id="submitStory">
+          <div class="section-heading">
+            <h2>Contribute a story</h2>
+            <p>
+              Submissions are public—share with care. We’ll blur exact locations, request alt text, and keep transcripts
+              with every interview by default.
+            </p>
+            <div class="checklist" aria-live="polite">
+              <p class="checklist-title">Pre-publish checklist</p>
+              <ul>
+                <li>
+                  <label>
+                    <input type="checkbox" id="checkConsent" disabled />
+                    Consent captured
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" id="checkAltText" disabled />
+                    Alt text added for every photo
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" id="checkLocation" disabled />
+                    Location privacy set to City or higher
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <form class="submission-form" id="storyForm" novalidate>
+            <div class="form-group">
+              <label for="storyTitle">Story title</label>
+              <input id="storyTitle" name="title" type="text" maxlength="120" required />
+              <p class="form-hint">120 characters max</p>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="storyAuthor">Your name</label>
+                <input id="storyAuthor" name="author" type="text" maxlength="80" required />
+              </div>
+              <div class="form-group">
+                <label for="storyTag">Category</label>
+                <select id="storyTag" name="tag" required>
+                  <option value="">Select one</option>
+                  <option value="Field Notes">Field Notes</option>
+                  <option value="Perspective">Perspective</option>
+                  <option value="Interview">Interview</option>
+                  <option value="Update">Update</option>
+                  <option value="Reflection">Reflection</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="storyLanguage">Language</label>
+                <select id="storyLanguage" name="language">
+                  <option value="en">English</option>
+                  <option value="es">Español</option>
+                  <option value="fr">Français</option>
+                  <option value="pt">Português</option>
+                  <option value="id">Bahasa Indonesia</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="storyCity">Location (city only)</label>
+                <input id="storyCity" name="city" type="text" placeholder="Example: Nairobi" />
+                <p class="form-hint">We fuzz anything more specific than city.</p>
+              </div>
+              <div class="form-group">
+                <label for="storyCountry">Country</label>
+                <input id="storyCountry" name="country" type="text" placeholder="Example: Kenya" />
+              </div>
+            </div>
+            <fieldset class="form-group privacy-group">
+              <legend>Location privacy</legend>
+              <p class="form-hint">Slide toward privacy if needed. We never store precise coordinates.</p>
+              <div class="privacy-options" role="radiogroup" aria-label="Location privacy level">
+                <label>
+                  <input type="radio" name="privacy" value="neighborhood" />
+                  Neighborhood
+                </label>
+                <label>
+                  <input type="radio" name="privacy" value="city" checked />
+                  City
+                </label>
+                <label>
+                  <input type="radio" name="privacy" value="region" />
+                  Region
+                </label>
+                <label>
+                  <input type="radio" name="privacy" value="off" />
+                  Hide location
+                </label>
+              </div>
+            </fieldset>
+            <div class="form-group">
+              <label for="storyContent">Story</label>
+              <textarea
+                id="storyContent"
+                name="content"
+                rows="6"
+                minlength="40"
+                maxlength="1800"
+                required
+                aria-describedby="contentHint"
+              ></textarea>
+              <p class="form-hint" id="contentHint">Between 40 and 1,800 characters</p>
+            </div>
+
+            <section class="gallery-section" aria-labelledby="galleryTitle">
+              <div class="section-subheading">
+                <h3 id="galleryTitle">Photo gallery</h3>
+                <p>Drag up to 10 images. Every image requires alt text; captions and credits are optional.</p>
+              </div>
+              <div class="gallery-dropzone" id="galleryDropzone" tabindex="0">
+                <p>Drag & drop or browse</p>
+                <p class="form-hint">JPEG, PNG, HEIC — max 10 files</p>
+                <input type="file" id="galleryInput" accept="image/*" multiple aria-label="Upload photos" />
+              </div>
+              <div class="gallery-list" id="galleryList" aria-live="polite"></div>
+            </section>
+
+            <section class="interview-section" aria-labelledby="interviewTitle">
+              <div class="section-subheading">
+                <h3 id="interviewTitle">Interview kit (optional)</h3>
+                <p>
+                  Record or upload audio. We’ll request consent, auto-transcribe, and offer machine translation to
+                  English. Edit anything before publishing.
+                </p>
+              </div>
+              <div class="interview-controls">
+                <button type="button" class="action secondary" id="recordToggle" aria-pressed="false">
+                  Start recording
+                </button>
+                <label class="upload-audio">
+                  <span>Upload audio</span>
+                  <input id="audioUpload" type="file" accept="audio/*" />
+                </label>
+                <audio id="audioPreview" controls hidden aria-label="Interview preview"></audio>
+              </div>
+              <div class="consent-callout">
+                <label>
+                  <input type="checkbox" id="consentCheckbox" />
+                  I have consent from everyone featured in this interview.
+                </label>
+                <p class="form-hint">Required for interviews; recommended for all story types.</p>
+              </div>
+              <div class="transcription-tools">
+                <button type="button" class="action secondary" id="transcribeBtn">Transcribe</button>
+                <span class="spinner" id="transcribeSpinner" hidden aria-live="polite">Transcribing…</span>
+                <label for="transcriptField">Transcript</label>
+                <textarea id="transcriptField" rows="5" placeholder="Transcript will appear here."></textarea>
+                <div class="translation-tools">
+                  <button type="button" class="action secondary" id="translateBtn">Translate to English</button>
+                  <span class="spinner" id="translateSpinner" hidden aria-live="polite">Translating…</span>
+                  <label for="translationField">Translation</label>
+                  <textarea id="translationField" rows="4" placeholder="Machine translation output."></textarea>
+                </div>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <button class="action primary" type="submit">Publish story</button>
+              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>
+          <p>© 2025 Open Story Commons. Built for open collaboration.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#about">About</a>
+          <a href="#recentStories">Community stories</a>
+          <a href="#submitStory">Contribute</a>
+        </div>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script type="module">
+      class SingleFileBackend {
+        constructor(storageKey, limit = 40) {
+          this.storageKey = storageKey;
+          this.limit = limit;
+          this.routes = {
+            "/api/stories": {
+              GET: () => this.getStories(),
+              POST: (body) => this.createStory(body),
+            },
+            "/api/metrics": {
+              GET: () => this.getMetrics(),
+            },
+          };
+          this.seedDefaults();
+          this.installInterceptor();
+        }
+
+        installInterceptor() {
+          if (this._installed) return;
+          const nativeFetch = window.fetch.bind(window);
+          window.fetch = async (input, init = {}) => {
+            const path = this.resolvePath(input);
+            if (path && path.startsWith("/api/")) {
+              return this.handleRequest(path, init);
+            }
+            return nativeFetch(input, init);
+          };
+          this._installed = true;
+        }
+
+        resolvePath(input) {
+          if (typeof input === "string") {
+            if (input.startsWith("http")) {
+              return new URL(input).pathname;
+            }
+            return input;
+          }
+          if (input instanceof Request) {
+            return new URL(input.url).pathname;
+          }
+          return null;
+        }
+
+        async handleRequest(path, init = {}) {
+          const method = (init.method || "GET").toUpperCase();
+          const route = this.routes[path];
+          if (!route || !route[method]) {
+            return this.toResponse({ message: "Route not found." }, 404);
+          }
+          try {
+            const body = await this.parseBody(init);
+            const payload = await route[method](body);
+            await this.delay();
+            return this.toResponse(payload);
+          } catch (error) {
+            return this.toResponse({ message: error.message || "Backend error." }, 400);
+          }
+        }
+
+        getStories() {
+          return this.read().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+
+        createStory(body = {}) {
+          const title = (body.title || "").trim();
+          const author = (body.author || "").trim();
+          const tag = (body.tag || "").trim();
+          const content = (body.content || "").trim();
+
+          if (!title || !author || !tag || !content) {
+            throw new Error("All story fields are required.");
+          }
+          if (title.length > 120) {
+            throw new Error("Title must be 120 characters or fewer.");
+          }
+          if (content.length < 40 || content.length > 1800) {
+            throw new Error("Stories must be between 40 and 1,800 characters.");
+          }
+
+          const stories = this.read();
+          const story = {
+            id: this.uid(),
+            title,
+            author,
+            tag,
+            content,
+            createdAt: new Date().toISOString(),
+          };
+          stories.unshift(story);
+          this.write(stories.slice(0, this.limit));
+          return story;
+        }
+
+        getMetrics() {
+          const stories = this.getStories();
+          const contributors = new Set(stories.map((story) => story.author.toLowerCase())).size;
+          return {
+            total: stories.length,
+            contributors,
+            lastSubmission: stories[0]?.createdAt || null,
+          };
+        }
+
+        seedDefaults() {
+          if (this.read().length) return;
+          const now = Date.now();
+          const seed = [
+            {
+              title: "Morning dispatch from the rooftop garden",
+              author: "Isabel Flores",
+              tag: "Field Notes",
+              content:
+                "I watched the city wake up while thinning basil starts. Delivery bikes hummed beneath the skyline and a neighbor dropped off a bag of citrus. Shared coffee, swapped playlists, promised to meet back here after sunset.",
+              createdAt: new Date(now - 1000 * 60 * 60 * 2).toISOString(),
+            },
+            {
+              title: "Three conversations about community safety",
+              author: "Rafi Jones",
+              tag: "Perspective",
+              content:
+                "Stopped by the laundromat, the barber, and the corner store to ask what safety feels like this week. Consensus: it begins with knowing people by name, checking in before anything escalates, and treating public spaces like shared living rooms.",
+              createdAt: new Date(now - 1000 * 60 * 60 * 26).toISOString(),
+            },
+            {
+              title: "Quick update from the mutual aid pantry",
+              author: "Mia Park",
+              tag: "Update",
+              content:
+                "We restocked baby formula, recipe cards, and winter socks. Volunteers built a new spreadsheet so folks can reserve pickup slots without waiting in line. Biggest need right now: transport help on Wednesdays.",
+              createdAt: new Date(now - 1000 * 60 * 60 * 52).toISOString(),
+            },
+          ];
+          this.write(
+            seed.map((item, index) => ({
+              id: this.uid(index),
+              ...item,
+            }))
+          );
+        }
+
+        async parseBody(init = {}) {
+          if (!init.body) return null;
+          if (typeof init.body === "string") {
+            return init.body ? JSON.parse(init.body) : null;
+          }
+          if (init.body instanceof Blob) {
+            return JSON.parse(await init.body.text());
+          }
+          return init.body;
+        }
+
+        toResponse(payload, status = 200) {
+          return new Response(JSON.stringify(payload), {
+            status,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+
+        delay(duration = 220) {
+          return new Promise((resolve) => setTimeout(resolve, duration));
+        }
+
+        read() {
+          try {
+            const value = localStorage.getItem(this.storageKey);
+            return value ? JSON.parse(value) : [];
+          } catch (error) {
+            console.error("Unable to read from storage", error);
+            return [];
+          }
+        }
+
+        write(data) {
+          try {
+            localStorage.setItem(this.storageKey, JSON.stringify(data));
+          } catch (error) {
+            console.error("Unable to write to storage", error);
+          }
+        }
+
+        uid(seed = 0) {
+          if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+          return `story-${Date.now()}-${Math.floor(Math.random() * 1000 + seed)}`;
+        }
+      }
+
+      const backend = new SingleFileBackend("osc-stories");
+
+      const storyTemplate = document.getElementById("storyTemplate");
+      const storyList = document.getElementById("storyList");
+      const storyEmpty = document.getElementById("storyEmpty");
+      const storyForm = document.getElementById("storyForm");
+      const formStatus = document.getElementById("formStatus");
+      const toast = document.getElementById("toast");
+      const metricElements = {
+        contributors: document.getElementById("metricContributors"),
+        stories: document.getElementById("metricStories"),
+        lastSubmission: document.getElementById("metricLastSubmission"),
+      };
+
+      let toastTimeout;
+
+      function setFormStatus(message) {
+        formStatus.textContent = message;
+      }
+
+      function showToast(message, variant = "success") {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.dataset.variant = variant;
+        toast.hidden = false;
+        toast.dataset.visible = "true";
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.dataset.visible = "false";
+          setTimeout(() => {
+            toast.hidden = true;
+          }, 280);
+        }, 3200);
+      }
+
+      function formatDisplayDate(isoString) {
+        const date = new Date(isoString);
+        return date.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+      }
+
+      function relativeTime(isoString) {
+        if (!isoString) return "—";
+        const diff = Date.now() - new Date(isoString).getTime();
+        const minutes = Math.max(1, Math.round(diff / 60000));
+        if (minutes < 60) return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
+        const hours = Math.round(minutes / 60);
+        if (hours < 24) return `${hours} hr${hours === 1 ? "" : "s"} ago`;
+        const days = Math.round(hours / 24);
+        return `${days} day${days === 1 ? "" : "s"} ago`;
+      }
+
+      function renderStories(stories = []) {
+        storyList.innerHTML = "";
+        if (!stories.length) {
+          storyEmpty.hidden = false;
+          return;
+        }
+        storyEmpty.hidden = true;
+
+        const fragment = document.createDocumentFragment();
+        stories.forEach((story) => {
+          const instance = storyTemplate.content.cloneNode(true);
+          instance.querySelector(".story-tag").textContent = story.tag;
+          instance.querySelector(".story-title").textContent = story.title;
+          instance.querySelector(".story-content").textContent = story.content;
+          instance.querySelector(".story-author").textContent = story.author;
+          const timeEl = instance.querySelector(".story-date");
+          timeEl.textContent = formatDisplayDate(story.createdAt);
+          timeEl.dateTime = story.createdAt;
+          fragment.appendChild(instance);
+        });
+
+        storyList.appendChild(fragment);
+      }
+
+      function renderMetrics(metrics) {
+        if (!metrics) return;
+        metricElements.contributors.textContent = metrics.contributors ?? "0";
+        metricElements.stories.textContent = metrics.total ?? "0";
+        metricElements.lastSubmission.textContent = metrics.lastSubmission ? relativeTime(metrics.lastSubmission) : "—";
+      }
+
+      async function refreshStories() {
+        const response = await fetch("/api/stories");
+        if (!response.ok) throw new Error("Unable to load stories.");
+        const data = await response.json();
+        renderStories(data);
+      }
+
+      async function refreshMetrics() {
+        const response = await fetch("/api/metrics");
+        if (!response.ok) throw new Error("Unable to load metrics.");
+        const data = await response.json();
+        renderMetrics(data);
+      }
+
+      storyForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(storyForm);
+        const payload = {
+          title: formData.get("title"),
+          author: formData.get("author"),
+          tag: formData.get("tag"),
+          content: formData.get("content"),
+        };
+
+        try {
+          setFormStatus("Publishing story…");
+          const response = await fetch("/api/stories", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message || "Unable to publish story.");
+          storyForm.reset();
+          showToast("Story published to the commons.");
+          await Promise.all([refreshStories(), refreshMetrics()]);
+          setFormStatus("Story published ✓");
+          setTimeout(() => setFormStatus("Ready for your next entry."), 2000);
+        } catch (error) {
+          showToast(error.message || "Failed to publish story.", "error");
+          setFormStatus(error.message || "Failed to publish story.");
+        }
+      });
+
+      (async function bootstrap() {
+        try {
+          setFormStatus("Loading community stories…");
+          await Promise.all([refreshStories(), refreshMetrics()]);
+          setFormStatus("Ready for your story.");
+        } catch (error) {
+          showToast(error.message || "Unable to load initial data.", "error");
+          setFormStatus("Unable to load stories. Try again.");
+        }
+      })();
+    </script>
+  </body>
+</html>
